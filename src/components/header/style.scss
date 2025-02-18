@@ -3,9 +3,10 @@
 // Define black-and-white colors
 $black: #000;
 $white: #fff;
-$red:#ff0000 ;
-$redd:#e10400 ;
-$green:#36e800 ;
+$red: #ff0000;
+$redd: #e10400;
+$green: #36e800;
+
 .header {
   position: fixed;
   transform: translateY(0);
@@ -62,10 +63,6 @@ $green:#36e800 ;
       font-weight: 500;
       position: relative;
 
-      &.searchIcon {
-        margin-right: 0;
-      }
-
       svg {
         font-size: 18px;
       }
@@ -75,7 +72,6 @@ $green:#36e800 ;
       &:hover {
         color: $red; // Hover effect remains white
         text-shadow: 2px 2px 5px var(--pink);
-
       }
 
       // Watchlist Button Styling
@@ -150,62 +146,52 @@ $green:#36e800 ;
     }
   }
 
+  // Search Bar Styles
   .searchBar {
-    width: 100%;
-    height: 60px;
-    background-color: $black; // Updated to black
     position: absolute;
-    top: 60px;
-    animation: mobileMenu 0.3s ease forwards;
+    top: 50%;
+    left: 300px; // Adjust this value based on your logo's width
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    background: $white; // White background
+    border: 1px solid $black; // Black border
+    border-radius: 20px; // Rounded corners
+    padding: 5px 10px; // Small padding
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    .searchInput {
-      display: flex;
-      align-items: center;
-      height: 40px;
-      margin-top: 10px;
-      width: 100%;
+    input {
+      width: 300px; // Small width
+      padding: 5px;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: $black; // Black text
+      font-size: 14px;
 
-      svg {
-        font-size: 20px;
-        flex-shrink: 0;
-        margin-left: 10px;
-        cursor: pointer;
+      &::placeholder {
+        color: rgba($black, 0.7); // Placeholder text color
       }
+    }
 
-      input {
-        width: 100%;
-        height: 50px;
-        background-color: $black; // Updated to black
-        outline: 0;
-        border: 0;
-        border-radius: 30px 0 0 30px;
-        padding: 0 15px;
-        font-size: 14px;
-        color: $white; // Updated to white
+    .closeSearch {
+      margin-left: 10px;
+      font-size: 16px;
+      color: $black; // Black close icon
+      cursor: pointer;
 
-        @include md {
-          height: 60px;
-          font-size: 20px;
-          padding: 0 30px;
-        }
-      }
-
-      // Close Button Styling
-      .closeSearch {
-        font-size: 20px; // Size of the close icon
-        color: $white; // White color for visibility
-        cursor: pointer;
-        margin-left: 10px; // Add spacing between input and close button
+      &:hover {
+        color: $red; // Red on hover
       }
     }
   }
 
-  // New Styles for Authentication Modal
+  // Authentication Modal Styles
   .authModal {
     position: fixed;
     top: 60px; // Align below the header
     right: 0; // Align to the right
-    width:350px; // Fixed width for the modal
+    width: 350px; // Fixed width for the modal
     height: auto;
     background: rgba(0, 0, 0, 0.9); // Semi-transparent black
     display: flex;
@@ -245,10 +231,10 @@ $green:#36e800 ;
         &:hover {
           background: $black; // Black background on hover
           color: $white; // White text on hover
-          box-shadow: $white 0 0 0.625em ;
+          box-shadow: $white 0 0 0.625em;
           outline: solid 0.1rem;
         }
-       
+
         &.createAccount {
           background: $white; // White background
           color: $black; // Black text
@@ -264,8 +250,6 @@ $green:#36e800 ;
         margin-top: 1rem;
         background: $white; // White background
         color: $white; // Black text
-
-       
       }
 
       .closeModal.topRight {
@@ -285,25 +269,26 @@ $green:#36e800 ;
         font-size: 40px; // Size of the "×" symbol
         color: $white; // White text color
         transition: all 0.3s ease; // Smooth transition
-      
+
         &:hover {
           background-color: $red; // Red background on hover
           color: $white; // White text on hover
         }
       }
+
       .createAccountForm {
         display: flex;
         flex-direction: column; // Stack elements vertically
         align-items: flex-start; // Align items to the left
         gap: 1rem; // Add spacing between form elements
-      
+
         label {
           display: flex;
           flex-direction: column;
           align-items: flex-start; // Align text and input fields to the left
           width: 100%; // Ensure labels take up full width of the form
           color: $white; // Assuming white text for visibility
-      
+
           input {
             width: 100%; // Inputs take up the full width of the label
             padding: 0.5rem; // Add padding for better usability
@@ -312,14 +297,14 @@ $green:#36e800 ;
             background: transparent; // Transparent background
             color: $white; // White text inside inputs
             font-size: 16px; // Consistent font size
-      
+
             &:focus {
               outline: none; // Remove default focus outline
               border-color: $green; // Highlight border on focus
             }
           }
         }
-      
+
         button {
           padding: 0.75rem 1.5rem; // Add padding for the button
           background: $white; // White background
@@ -329,11 +314,11 @@ $green:#36e800 ;
           cursor: pointer; // Pointer cursor on hover
           font-size: 16px; // Consistent font size
           transition: background 0.3s ease; // Smooth hover effect
-      
+
           &:hover {
             background: $redd; // Red background on hover
             color: $white; // White text on hover
-            box-shadow: $white 0 0 0.005em ;
+            box-shadow: $white 0 0 0.005em;
           }
         }
       }
@@ -360,6 +345,7 @@ $green:#36e800 ;
   0% {
     transform: translateY(-130%);
   }
+
   100% {
     transform: translateY(0);
   }
