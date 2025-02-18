@@ -128,8 +128,8 @@ const Header = () => {
               onChange={(e) => setLanguage(e.target.value)}
             >
               <option value="English">English</option>
-              <option value="Spanish">Sinhala</option>
-              <option value="Spanish">Tamil</option>
+              <option value="Sinhala">Sinhala</option>
+              <option value="Tamil">Tamil</option>
               <option value="Spanish">Spanish</option>
               <option value="French">French</option>
               <option value="German">German</option>
