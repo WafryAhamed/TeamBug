@@ -24,6 +24,10 @@ const Header = () => {
   const [showCreateAccount, setShowCreateAccount] = useState(false);
   // New state for language selection
   const [language, setLanguage] = useState("English");
+
+  // New state for theme toggle
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -90,6 +94,12 @@ const Header = () => {
     setShowCreateAccount(!showCreateAccount);
   };
 
+  // Toggle theme (day/night)
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle("dark-mode", !isDarkMode);
+  };
+
   return (
     <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
       <ContentWrapper>
@@ -113,10 +123,8 @@ const Header = () => {
           </li>
           {/* Watchlist Button */}
           <li className="menuItem" onClick={() => navigationHandler("movie")}>
-          Watchlist
-         
+            Watchlist
           </li>
-            
           {/* Sign In Button */}
           <li className="menuItem authButton" onClick={toggleAuthModal}>
             Sign In
@@ -134,6 +142,66 @@ const Header = () => {
               <option value="French">French</option>
               <option value="German">German</option>
             </select>
+          </li>
+          {/* Day/Night Toggle Switch */}
+          <li className="menuItem themeToggle">
+            <div
+              className="themeToggleSwitch"
+              onClick={toggleTheme}
+              style={{
+                width: "60px",
+                height: "30px",
+                borderRadius: "15px",
+                background: isDarkMode
+                  ? "linear-gradient(90deg, #4b6cb7, #182848)"
+                  : "linear-gradient(90deg, #ffcc00, #f0e68c)",
+                position: "relative",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 5px",
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              {/* Sun Symbol */}
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: isDarkMode ? "#ccc" : "#ffcc00",
+                  opacity: isDarkMode ? 0.5 : 1,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                ☀️
+              </span>
+              {/* Thumb */}
+              <div
+                className="toggleThumb"
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  background: "#fff",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  top: "5px",
+                  left: isDarkMode ? "35px" : "5px",
+                  transition: "left 0.3s ease, box-shadow 0.3s ease",
+                  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              ></div>
+              {/* Moon Symbol */}
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: isDarkMode ? "#f0f0f0" : "#ccc",
+                  opacity: isDarkMode ? 1 : 0.5,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                🌙
+              </span>
+            </div>
           </li>
         </ul>
         {/* Mobile Menu Items */}
@@ -194,16 +262,12 @@ const Header = () => {
                   Create a New Account
                 </button>
                 {/* Close Button */}
-{/* Close Button */}
-{/* Close Button */}
-<button
-  className="closeModal topRight"
-  onClick={toggleAuthModal}
->
-  ×
-</button>
-
-
+                <button
+                  className="closeModal topRight"
+                  onClick={toggleAuthModal}
+                >
+                  ×
+                </button>
               </>
             ) : (
               <>
@@ -243,19 +307,14 @@ const Header = () => {
                 <p>
                   Already have an account?{" "}
                   <span onClick={toggleCreateAccount} style={{ color: 'red', cursor: 'pointer' }}>Sign in</span>
-
                 </p>
                 {/* Close Button */}
-{/* Close Button */}
-<button
-  className="closeModal topRight"
-  onClick={toggleAuthModal}
->
-  ×
-</button>
-
-
-
+                <button
+                  className="closeModal topRight"
+                  onClick={toggleAuthModal}
+                >
+                  ×
+                </button>
               </>
             )}
           </div>
