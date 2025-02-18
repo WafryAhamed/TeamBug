@@ -1,0 +1,366 @@
+@import "../../mixins.scss";
+
+// Define black-and-white colors
+$black: #000;
+$white: #fff;
+$red:#ff0000 ;
+$redd:#e10400 ;
+$green:#36e800 ;
+.header {
+  position: fixed;
+  transform: translateY(0);
+  width: 100%;
+  height: 60px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  transition: all ease 0.5s;
+  z-index: 2;
+
+  &.top {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(3.5px);
+    -webkit-backdrop-filter: blur(3.5px);
+  }
+
+  &.show {
+    background-color: $black; // Updated to black
+  }
+
+  &.hide {
+    transform: translateY(-60px);
+  }
+
+  .contentWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    cursor: pointer;
+    img {
+      height: 100px;
+    }
+  }
+
+  .menuItems {
+    list-style-type: none;
+    display: none;
+    align-items: center;
+
+    @include md {
+      display: flex;
+    }
+
+    .menuItem {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      margin: 0 15px;
+      color: $white; // Updated to white
+      font-weight: 500;
+      position: relative;
+
+      &.searchIcon {
+        margin-right: 0;
+      }
+
+      svg {
+        font-size: 18px;
+      }
+
+      cursor: pointer;
+
+      &:hover {
+        color: $red; // Hover effect remains white
+        text-shadow: 2px 2px 5px var(--pink);
+
+      }
+
+      // Watchlist Button Styling
+      &.watchlistButton {
+        color: $white;
+        cursor: pointer;
+      }
+
+      // Language Dropdown Styling
+      &.languageDropdown {
+        select {
+          background: $white; // White background
+          color: $black; // Black text
+          border: none;
+          border-radius: 4px; // Match border-radius with watchlist button
+          padding: 0.5rem 1rem; // Adjust padding for consistent size
+          font-size: 14px; // Match font size
+          cursor: pointer;
+
+          &:hover {
+            background: darken($white, 10%); // Darken on hover
+          }
+        }
+      }
+    }
+  }
+
+  .mobileMenuItems {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    @include md {
+      display: none;
+    }
+
+    svg {
+      font-size: 18px;
+      color: $white; // Updated to white
+    }
+  }
+
+  &.mobileView {
+    background: $black; // Updated to black
+
+    .menuItems {
+      display: flex;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background: $black; // Updated to black
+      flex-direction: column;
+      width: 100%;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      animation: mobileMenu 0.3s ease forwards;
+
+      .menuItem {
+        font-size: 20px;
+        width: 100%;
+        height: auto;
+        padding: 15px 20px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        &:last-child {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .searchBar {
+    width: 100%;
+    height: 60px;
+    background-color: $black; // Updated to black
+    position: absolute;
+    top: 60px;
+    animation: mobileMenu 0.3s ease forwards;
+
+    .searchInput {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-top: 10px;
+      width: 100%;
+
+      svg {
+        font-size: 20px;
+        flex-shrink: 0;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      input {
+        width: 100%;
+        height: 50px;
+        background-color: $black; // Updated to black
+        outline: 0;
+        border: 0;
+        border-radius: 30px 0 0 30px;
+        padding: 0 15px;
+        font-size: 14px;
+        color: $white; // Updated to white
+
+        @include md {
+          height: 60px;
+          font-size: 20px;
+          padding: 0 30px;
+        }
+      }
+
+      // Close Button Styling
+      .closeSearch {
+        font-size: 20px; // Size of the close icon
+        color: $white; // White color for visibility
+        cursor: pointer;
+        margin-left: 10px; // Add spacing between input and close button
+      }
+    }
+  }
+
+  // New Styles for Authentication Modal
+  .authModal {
+    position: fixed;
+    top: 60px; // Align below the header
+    right: 0; // Align to the right
+    width:350px; // Fixed width for the modal
+    height: auto;
+    background: rgba(0, 0, 0, 0.9); // Semi-transparent black
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    z-index: 999;
+
+    .authModalContent {
+      background: $black; // Black background
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      position: relative; // Add this to make child elements positionable
+
+      h2 {
+        color: $white; // White text
+        margin-bottom: 1rem;
+        font-size: 24px;
+      }
+
+      .authOption {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        margin: 0.5rem 0;
+        background: $white; // White background
+        color: $black; // Black text
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 17px;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: $black; // Black background on hover
+          color: $white; // White text on hover
+          box-shadow: $white 0 0 0.625em ;
+          outline: solid 0.1rem;
+        }
+       
+        &.createAccount {
+          background: $white; // White background
+          color: $black; // Black text
+
+          &:hover {
+            background: $black; // Black background on hover
+            color: $white; // White text on hover
+          }
+        }
+      }
+
+      .closeModal {
+        margin-top: 1rem;
+        background: $white; // White background
+        color: $white; // Black text
+
+       
+      }
+
+      .closeModal.topRight {
+        position: absolute; // Position absolutely within the modal
+        top: 10px; // Distance from the top
+        right: 10px; // Distance from the right
+        background: transparent; // Remove background
+        border: none; // Remove border
+        cursor: pointer; // Ensure it's clickable
+        padding: 0; // Remove padding
+        width: 41px; // Fixed width for the button
+        height: 41px; // Fixed height for the button
+        border-radius: 50%; // Circular shape
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px; // Size of the "×" symbol
+        color: $white; // White text color
+        transition: all 0.3s ease; // Smooth transition
+      
+        &:hover {
+          background-color: $red; // Red background on hover
+          color: $white; // White text on hover
+        }
+      }
+      .createAccountForm {
+        display: flex;
+        flex-direction: column; // Stack elements vertically
+        align-items: flex-start; // Align items to the left
+        gap: 1rem; // Add spacing between form elements
+      
+        label {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start; // Align text and input fields to the left
+          width: 100%; // Ensure labels take up full width of the form
+          color: $white; // Assuming white text for visibility
+      
+          input {
+            width: 100%; // Inputs take up the full width of the label
+            padding: 0.5rem; // Add padding for better usability
+            border: 1px solid $white; // White border for contrast
+            border-radius: 4px; // Rounded corners
+            background: transparent; // Transparent background
+            color: $white; // White text inside inputs
+            font-size: 16px; // Consistent font size
+      
+            &:focus {
+              outline: none; // Remove default focus outline
+              border-color: $green; // Highlight border on focus
+            }
+          }
+        }
+      
+        button {
+          padding: 0.75rem 1.5rem; // Add padding for the button
+          background: $white; // White background
+          color: $black; // Black text
+          border: none; // No border
+          border-radius: 4px; // Rounded corners
+          cursor: pointer; // Pointer cursor on hover
+          font-size: 16px; // Consistent font size
+          transition: background 0.3s ease; // Smooth hover effect
+      
+          &:hover {
+            background: $redd; // Red background on hover
+            color: $white; // White text on hover
+            box-shadow: $white 0 0 0.005em ;
+          }
+        }
+      }
+
+      p {
+        margin-top: 1rem;
+        color: $white;
+
+        span {
+          color: $white;
+          text-decoration: underline;
+          cursor: pointer;
+
+          &:hover {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes mobileMenu {
+  0% {
+    transform: translateY(-130%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
