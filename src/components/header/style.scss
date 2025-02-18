@@ -1,352 +1,327 @@
-@import "../../mixins.scss";
+import React, { useState, useEffect } from "react";
+import {
+  HiOutlineSearch,
+} from "react-icons/hi";
+import { SlMenu } from "react-icons/sl";
+import { VscChromeClose } from "react-icons/vsc";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./style.scss";
+import ContentWrapper from "../contentWrapper/ContentWrapper";
+import logo from "../../assets/cinemx.png";
+// Import images for Google, Apple, and Facebook
+import googleLogo from "../../assets/images/google-logo.png";
+import appleLogo from "../../assets/images/apple-logo.png";
+import facebookLogo from "../../assets/images/facebook-logo.png";
 
-// Define black-and-white colors
-$black: #000;
-$white: #fff;
-$red: #ff0000;
-$redd: #e10400;
-$green: #36e800;
+const Header = () => {
+  // Existing states
+  const [show, setShow] = useState("top");
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [query, setQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false); // Updated to boolean for clarity
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
+  // New state for language selection
+  const [language, setLanguage] = useState("English");
 
-.header {
-  position: fixed;
-  transform: translateY(0);
-  width: 100%;
-  height: 60px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  transition: all ease 0.5s;
-  z-index: 2;
+  // New state for theme toggle
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  &.top {
-    background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(3.5px);
-    -webkit-backdrop-filter: blur(3.5px);
-  }
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  &.show {
-    background-color: $black; // Updated to black
-  }
+  // Scroll effect logic
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
-  &.hide {
-    transform: translateY(-60px);
-  }
-
-  .contentWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .logo {
-    cursor: pointer;
-    img {
-      height: 100px;
+  const controlNavBar = () => {
+    if (window.scrollY > 200) {
+      if (window.scrollY > lastScrollY && !mobileMenu) {
+        setShow("hide");
+      } else {
+        setShow("show");
+      }
+      setLastScrollY(window.scrollY);
+    } else {
+      setShow("top");
     }
-  }
+  };
 
-  .menuItems {
-    list-style-type: none;
-    display: none;
-    align-items: center;
+  useEffect(() => {
+    window.addEventListener("scroll", controlNavBar);
+    return () => {
+      window.removeEventListener("scroll", controlNavBar);
+    };
+  }, [lastScrollY]);
 
-    @include md {
-      display: flex;
+  const openSearch = () => {
+    setMobileMenu(false);
+    setShowSearch(true);
+  };
+
+  const closeSearch = () => {
+    setShowSearch(false);
+  };
+
+  const searchQueryHandler = (event) => {
+    if (event.key === "Enter" && query.length > 0) {
+      navigate(`/search/${query}`);
+      setTimeout(() => {
+        setShowSearch(false);
+      }, 1000);
     }
+  };
 
-    .menuItem {
-      height: 70px;
-      display: flex;
-      align-items: center;
-      margin: 0 15px;
-      color: $white; // Updated to white
-      font-weight: 500;
-      position: relative;
-
-      svg {
-        font-size: 18px;
-      }
-
-      cursor: pointer;
-
-      &:hover {
-        color: $red; // Hover effect remains white
-        text-shadow: 2px 2px 5px var(--pink);
-      }
-
-      // Watchlist Button Styling
-      &.watchlistButton {
-        color: $white;
-        cursor: pointer;
-      }
-
-      // Language Dropdown Styling
-      &.languageDropdown {
-        select {
-          background: $white; // White background
-          color: $black; // Black text
-          border: none;
-          border-radius: 4px; // Match border-radius with watchlist button
-          padding: 0.5rem 1rem; // Adjust padding for consistent size
-          font-size: 14px; // Match font size
-          cursor: pointer;
-
-          &:hover {
-            background: darken($white, 10%); // Darken on hover
-          }
-        }
-      }
+  const navigationHandler = (type) => {
+    if (type === "movie") {
+      navigate("/explore/movie");
+    } else {
+      navigate("/explore/tv");
     }
-  }
+    setMobileMenu(false);
+  };
 
-  .mobileMenuItems {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  // Toggle authentication modal
+  const toggleAuthModal = () => {
+    setShowAuthModal(!showAuthModal);
+    setShowCreateAccount(false); // Reset to Sign In view
+  };
 
-    @include md {
-      display: none;
-    }
+  // Toggle Create Account form
+  const toggleCreateAccount = () => {
+    setShowCreateAccount(!showCreateAccount);
+  };
 
-    svg {
-      font-size: 18px;
-      color: $white; // Updated to white
-    }
-  }
+  // Toggle theme (day/night)
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle("dark-mode", !isDarkMode);
+  };
 
-  &.mobileView {
-    background: $black; // Updated to black
+  return (
+    <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
+      <ContentWrapper>
+        {/* Logo */}
+        <div className="logo" onClick={() => navigate("/")}>
+          <img src={logo} alt="" />
+        </div>
+        {/* Menu Items */}
+        <ul className="menuItems">
+          {/* Search Icon */}
+          <li className="menuItem">
+            <HiOutlineSearch onClick={openSearch} />
+          </li>
+          {/* Movies */}
+          <li className="menuItem" onClick={() => navigationHandler("movie")}>
+            Movies
+          </li>
+          {/* TV Shows */}
+          <li className="menuItem" onClick={() => navigationHandler("tv")}>
+            TV Shows
+          </li>
+          {/* Watchlist Button */}
+          <li className="menuItem" onClick={() => navigationHandler("movie")}>
+            Watchlist
+          </li>
+          {/* Sign In Button */}
+          <li className="menuItem authButton" onClick={toggleAuthModal}>
+            Sign In
+          </li>
+          {/* Language Dropdown */}
+          <li className="menuItem languageDropdown">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            >
+              <option value="English">English</option>
+              <option value="Sinhala">Sinhala</option>
+              <option value="Tamil">Tamil</option>
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+              <option value="German">German</option>
+            </select>
+          </li>
+          {/* Day/Night Toggle Switch */}
+          <li className="menuItem themeToggle">
+            <div
+              className="themeToggleSwitch"
+              onClick={toggleTheme}
+              style={{
+                width: "60px",
+                height: "30px",
+                borderRadius: "15px",
+                background: isDarkMode
+                  ? "linear-gradient(90deg, #4b6cb7, #182848)"
+                  : "linear-gradient(90deg,rgb(250, 236, 180),rgb(252, 248, 216))",
+                position: "relative",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 5px",
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              {/* moon Symbol */}
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: isDarkMode ? "#ccc" : "#ffcc00",
+                  opacity: isDarkMode ? 0.5 : 1,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                🌙
+              </span>
+              {/* Thumb */}
+              <div
+                className="toggleThumb"
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  background: "#fff",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  top: "5px",
+                  left: isDarkMode ? "35px" : "5px",
+                  transition: "left 0.3s ease, box-shadow 0.3s ease",
+                  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              ></div>
+              {/* sun Symbol */}
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: isDarkMode ? "#f0f0f0" : "#ccc",
+                  opacity: isDarkMode ? 1 : 0.5,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                 ☀️
+              </span>
+            </div>
+          </li>
+        </ul>
+        {/* Mobile Menu Items */}
+        <div className="mobileMenuItems">
+          <HiOutlineSearch onClick={openSearch} />
+          {mobileMenu ? (
+            <VscChromeClose onClick={() => setMobileMenu(false)} />
+          ) : (
+            <SlMenu onClick={() => setMobileMenu(true)} />
+          )}
+        </div>
+      </ContentWrapper>
+      {/* Search Bar */}
+      {showSearch && (
+        <div className="searchBar">
+          <ContentWrapper>
+            <div className="searchInput">
+              <input
+                type="text"
+                placeholder="Search for movie or TV show.."
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyUp={searchQueryHandler}
+              />
+              {/* Close Button */}
+              <VscChromeClose className="closeSearch" onClick={closeSearch} />
+            </div>
+          </ContentWrapper>
+        </div>
+      )}
+      {/* Authentication Modal */}
+      {showAuthModal && (
+        <div className="authModal">
+          <div className="authModalContent">
+            {!showCreateAccount ? (
+              <>
+                <h2>Sign In</h2>
+                {/* Google Button */}
+                <button className="authOption" style={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}>
+                  <img src={googleLogo} alt="Google" style={{ width: "25px", height: "25px", marginLeft: "2px", marginBottom: "-6px" }} />
+                  <span style={{ marginLeft: "5px" }}>Sign in with Google</span>
+                </button>
+                {/* Apple Button */}
+                <button className="authOption" style={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}>
+                  <img src={appleLogo} alt="Apple" style={{ width: "25px", height: "25px", marginRight: "1px", marginBottom: "-1px" }} />
+                  <span style={{ marginLeft: "5px" }}>Sign in with Apple</span>
+                </button>
+                {/* Facebook Button */}
+                <button className="authOption" style={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}>
+                  <img src={facebookLogo} alt="Facebook" style={{ width: "28px", height: "28px", marginRight: "-1px", marginBottom: "-1px" }} />
+                  <span style={{ marginLeft: "5px" }}>Sign in with Facebook</span>
+                </button>
+                <p>or</p>
+                {/* Create Account Button */}
+                <button
+                  className="authOption createAccount"
+                  onClick={toggleCreateAccount}
+                >
+                  Create a New Account
+                </button>
+                {/* Close Button */}
+                <button
+                  className="closeModal topRight"
+                  onClick={toggleAuthModal}
+                >
+                  ×
+                </button>
+              </>
+            ) : (
+              <>
+                <h2>Create Account</h2>
+                <form className="createAccountForm">
+                  <label>
+                    Your name
+                    <input
+                      type="text"
+                      placeholder="First and last name"
+                      required
+                    />
+                  </label>
+                  <label>
+                    Email
+                    <input type="email" placeholder="Email" required />
+                  </label>
+                  <label>
+                    Password
+                    <input
+                      type="password"
+                      placeholder="At least 8 characters"
+                      minLength={8}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Re-enter password
+                    <input
+                      type="password"
+                      placeholder="Re-enter password"
+                      required
+                    />
+                  </label>
+                  <button type="submit">Create Your Account</button>
+                </form>
+                <p>
+                  Already have an account?{" "}
+                  <span onClick={toggleCreateAccount} style={{ color: 'red', cursor: 'pointer' }}>Sign in</span>
+                </p>
+                {/* Close Button */}
+                <button
+                  className="closeModal topRight"
+                  onClick={toggleAuthModal}
+                >
+                  ×
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
 
-    .menuItems {
-      display: flex;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      background: $black; // Updated to black
-      flex-direction: column;
-      width: 100%;
-      padding: 20px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      animation: mobileMenu 0.3s ease forwards;
-
-      .menuItem {
-        font-size: 20px;
-        width: 100%;
-        height: auto;
-        padding: 15px 20px;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-
-        &:last-child {
-          display: none;
-        }
-      }
-    }
-  }
-
-  // Search Bar Styles
-  .searchBar {
-    position: absolute;
-    top: 50%;
-    left: 300px; // Adjust this value based on your logo's width
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    background: $white; // White background
-    border: 1px solid $black; // Black border
-    border-radius: 20px; // Rounded corners
-    padding: 5px 10px; // Small padding
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    input {
-      width: 300px; // Small width
-      padding: 5px;
-      border: none;
-      outline: none;
-      background: transparent;
-      color: $black; // Black text
-      font-size: 14px;
-
-      &::placeholder {
-        color: rgba($black, 0.7); // Placeholder text color
-      }
-    }
-
-    .closeSearch {
-      margin-left: 10px;
-      font-size: 16px;
-      color: $black; // Black close icon
-      cursor: pointer;
-
-      &:hover {
-        color: $red; // Red on hover
-      }
-    }
-  }
-
-  // Authentication Modal Styles
-  .authModal {
-    position: fixed;
-    top: 60px; // Align below the header
-    right: 0; // Align to the right
-    width: 350px; // Fixed width for the modal
-    height: auto;
-    background: rgba(0, 0, 0, 0.9); // Semi-transparent black
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
-    z-index: 999;
-
-    .authModalContent {
-      background: $black; // Black background
-      padding: 2rem;
-      border-radius: 8px;
-      text-align: center;
-      width: 100%;
-      max-width: 400px;
-      position: relative; // Add this to make child elements positionable
-
-      h2 {
-        color: $white; // White text
-        margin-bottom: 1rem;
-        font-size: 24px;
-      }
-
-      .authOption {
-        display: block;
-        width: 100%;
-        padding: 0.75rem;
-        margin: 0.5rem 0;
-        background: $white; // White background
-        color: $black; // Black text
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 17px;
-        transition: background 0.3s ease;
-
-        &:hover {
-          background: $black; // Black background on hover
-          color: $white; // White text on hover
-          box-shadow: $white 0 0 0.625em;
-          outline: solid 0.1rem;
-        }
-
-        &.createAccount {
-          background: $white; // White background
-          color: $black; // Black text
-
-          &:hover {
-            background: $black; // Black background on hover
-            color: $white; // White text on hover
-          }
-        }
-      }
-
-      .closeModal {
-        margin-top: 1rem;
-        background: $white; // White background
-        color: $white; // Black text
-      }
-
-      .closeModal.topRight {
-        position: absolute; // Position absolutely within the modal
-        top: 10px; // Distance from the top
-        right: 10px; // Distance from the right
-        background: transparent; // Remove background
-        border: none; // Remove border
-        cursor: pointer; // Ensure it's clickable
-        padding: 0; // Remove padding
-        width: 41px; // Fixed width for the button
-        height: 41px; // Fixed height for the button
-        border-radius: 50%; // Circular shape
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 40px; // Size of the "×" symbol
-        color: $white; // White text color
-        transition: all 0.3s ease; // Smooth transition
-
-        &:hover {
-          background-color: $red; // Red background on hover
-          color: $white; // White text on hover
-        }
-      }
-
-      .createAccountForm {
-        display: flex;
-        flex-direction: column; // Stack elements vertically
-        align-items: flex-start; // Align items to the left
-        gap: 1rem; // Add spacing between form elements
-
-        label {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start; // Align text and input fields to the left
-          width: 100%; // Ensure labels take up full width of the form
-          color: $white; // Assuming white text for visibility
-
-          input {
-            width: 100%; // Inputs take up the full width of the label
-            padding: 0.5rem; // Add padding for better usability
-            border: 1px solid $white; // White border for contrast
-            border-radius: 4px; // Rounded corners
-            background: transparent; // Transparent background
-            color: $white; // White text inside inputs
-            font-size: 16px; // Consistent font size
-
-            &:focus {
-              outline: none; // Remove default focus outline
-              border-color: $green; // Highlight border on focus
-            }
-          }
-        }
-
-        button {
-          padding: 0.75rem 1.5rem; // Add padding for the button
-          background: $white; // White background
-          color: $black; // Black text
-          border: none; // No border
-          border-radius: 4px; // Rounded corners
-          cursor: pointer; // Pointer cursor on hover
-          font-size: 16px; // Consistent font size
-          transition: background 0.3s ease; // Smooth hover effect
-
-          &:hover {
-            background: $redd; // Red background on hover
-            color: $white; // White text on hover
-            box-shadow: $white 0 0 0.005em;
-          }
-        }
-      }
-
-      p {
-        margin-top: 1rem;
-        color: $white;
-
-        span {
-          color: $white;
-          text-decoration: underline;
-          cursor: pointer;
-
-          &:hover {
-            color: $white;
-          }
-        }
-      }
-    }
-  }
-}
-
-@keyframes mobileMenu {
-  0% {
-    transform: translateY(-130%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
+export default Header;
