@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Select from "react-select";
-
 import "./style.scss";
-
 import useFetch from "../../hooks/useFetch";
 import { fetchDataFromApi } from "../../utils/api";
 import ContentWrapper from "../../components/contentWrapper/ContentWrapper";
@@ -13,7 +11,7 @@ import Spinner from "../../components/spinner/Spinner";
 
 let filters = {};
 
-//create sort by properties and values
+// Create sort by properties and values
 const sortbyData = [
     { value: "popularity.desc", label: "Popularity Descending" },
     { value: "popularity.asc", label: "Popularity Ascending" },
@@ -27,17 +25,28 @@ const sortbyData = [
     { value: "original_title.asc", label: "Title (A-Z)" },
 ];
 
-const Explore = () => {
+// Generate year options for the dropdown
+const generateYearOptions = () => {
+    const currentYear = new Date().getFullYear();
+    const startYear = 1900;
+    const years = [];
+    for (let year = currentYear; year >= startYear; year--) {
+        years.push({ value: year, label: year });
+    }
+    return years;
+};
 
-  //create states
+const Explore = () => {
+    // Create states
     const [data, setData] = useState(null);
     const [pageNum, setPageNum] = useState(1);
     const [loading, setLoading] = useState(false);
     const [genre, setGenre] = useState(null);
     const [sortby, setSortby] = useState(null);
+    const [yearRange, setYearRange] = useState({ startYear: null, endYear: null });
     const { mediaType } = useParams();
 
-    //api call
+    // API call
     const { data: genresData } = useFetch(`/genre/${mediaType}/list`);
 
     const fetchInitialData = () => {
@@ -72,10 +81,11 @@ const Explore = () => {
         setPageNum(1);
         setSortby(null);
         setGenre(null);
+        setYearRange({ startYear: null, endYear: null });
         fetchInitialData();
     }, [mediaType]);
 
-    //after selecting sort by option, this method call
+    // Handle changes in filters
     const onChange = (selectedItems, action) => {
         if (action.name === "sortby") {
             setSortby(selectedItems);
@@ -94,6 +104,22 @@ const Explore = () => {
                 filters.with_genres = genreId;
             } else {
                 delete filters.with_genres;
+            }
+        }
+
+        if (action.name === "startYear" || action.name === "endYear") {
+            const { startYear, endYear } = yearRange;
+            const newStartYear = action.name === "startYear" ? (selectedItems?.value || null) : startYear;
+            const newEndYear = action.name === "endYear" ? (selectedItems?.value || null) : endYear;
+
+            setYearRange({ startYear: newStartYear, endYear: newEndYear });
+
+            if (newStartYear && newEndYear) {
+                filters.primary_release_date_gte = `${newStartYear}-01-01`;
+                filters.primary_release_date_lte = `${newEndYear}-12-31`;
+            } else {
+                delete filters.primary_release_date_gte;
+                delete filters.primary_release_date_lte;
             }
         }
 
@@ -132,6 +158,24 @@ const Explore = () => {
                             isClearable={true}
                             placeholder="Sort by"
                             className="react-select-container sortbyDD"
+                            classNamePrefix="react-select"
+                        />
+                        <Select
+                            name="startYear"
+                            value={yearRange.startYear ? { value: yearRange.startYear, label: yearRange.startYear } : null}
+                            options={generateYearOptions()}
+                            onChange={(selected) => onChange(selected, { name: "startYear" })}
+                            placeholder="Start Year"
+                            className="react-select-container yearDD"
+                            classNamePrefix="react-select"
+                        />
+                        <Select
+                            name="endYear"
+                            value={yearRange.endYear ? { value: yearRange.endYear, label: yearRange.endYear } : null}
+                            options={generateYearOptions()}
+                            onChange={(selected) => onChange(selected, { name: "endYear" })}
+                            placeholder="End Year"
+                            className="react-select-container yearDD"
                             classNamePrefix="react-select"
                         />
                     </div>
