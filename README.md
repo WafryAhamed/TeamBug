@@ -1,5 +1,10 @@
 
 ## Flixify - The Movie Explorer Website.
+![image](https://github.com/user-attachments/assets/bd4fdbea-f88f-4831-9759-b849b8449760)
+
+![image](https://github.com/user-attachments/assets/42fd1d02-37c4-46d2-a446-cc96cbbcc29e)
+![image](https://github.com/user-attachments/assets/125dd7cd-0b2c-4ecc-9a03-7146193fbd48)
+
 
 **Flixify** is a frontend web application designed to give users a dynamic and seamless experience while exploring popular movies and TV shows. Built with **React.js** and powered by **Vite**, this project leverages the **Movie Database API** to provide real-time data on the latest and trending content. With features such as dynamic category switching, a responsive UI, and smooth navigation, this app is built to deliver a rich user experience.
 
@@ -72,6 +77,13 @@ Special thanks to:
 - **Movie Database API** for providing the movie and TV show data.
 - The **open-source community** for the React libraries that made this project possible.
 - All my **teammates** who worked tirelessly to enhance the world of frontend development!
+
+![image](https://github.com/user-attachments/assets/42fd1d02-37c4-46d2-a446-cc96cbbcc29e)
+![image](https://github.com/user-attachments/assets/eea2de04-b28a-420c-af87-a39492e8bfc7)
+
+![image](https://github.com/user-attachments/assets/9e1fabf9-ac03-41c5-a901-265c281bbd45)
+
+
 
 ## Future Work 🔮
 - Add more **advanced filtering options** such as language, runtime, etc.
