@@ -81,3 +81,21 @@ Special thanks to:
 - Add more **advanced filtering options** such as language, runtime, etc.
 - Enhance UI with more **interactive animations** for a more engaging experience.
 - Introduce a **search feature** for users to quickly find their favorite movies or TV shows.
+
+
+
+## Error Fixing & Auditing 🛠️
+# To ensure all dependencies and packages are up-to-date and free from vulnerabilities, follow these steps:
+
+# 1. Audit for vulnerabilities:
+npm audit
+
+# 2. Fix audit issues:
+npm audit fix
+
+# 3. Force fix all issues (if necessary):
+npm audit fix --force
+
+# 4. Update all packages to the latest versions:
+npm update
+
