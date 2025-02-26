@@ -83,13 +83,13 @@ Special thanks to:
 - Introduce a **search feature** for users to quickly find their favorite movies or TV shows.
 
 
+---
 
-
-```markdown
 ## Error Fixing & Auditing 🛠️
 To ensure all dependencies and packages are up-to-date and free from vulnerabilities, follow these steps:
 
-1. **Audit for vulnerabilities:**
+1. **Audit for vulnerabilities:** This scans all the installed packages listed in your `package.json` for known security vulnerabilities.
+
    ```sh
    npm audit
    ```
