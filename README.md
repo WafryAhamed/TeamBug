@@ -1,8 +1,6 @@
 
 ## Flixify - The Movie Explorer Website.
 ![image](https://github.com/user-attachments/assets/bd4fdbea-f88f-4831-9759-b849b8449760)
-
-![image](https://github.com/user-attachments/assets/42fd1d02-37c4-46d2-a446-cc96cbbcc29e)
 ![image](https://github.com/user-attachments/assets/125dd7cd-0b2c-4ecc-9a03-7146193fbd48)
 
 
@@ -78,10 +76,7 @@ Special thanks to:
 - The **open-source community** for the React libraries that made this project possible.
 - All my **teammates** who worked tirelessly to enhance the world of frontend development!
 
-![image](https://github.com/user-attachments/assets/42fd1d02-37c4-46d2-a446-cc96cbbcc29e)
-![image](https://github.com/user-attachments/assets/eea2de04-b28a-420c-af87-a39492e8bfc7)
-
-![image](https://github.com/user-attachments/assets/9e1fabf9-ac03-41c5-a901-265c281bbd45)
+![image](https://github.com/user-attachments/assets/eea2de04-b28a-420c-af87-a39492e8bfc7) ![image](https://github.com/user-attachments/assets/9e1fabf9-ac03-41c5-a901-265c281bbd45)
 
 
 
