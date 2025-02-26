@@ -84,18 +84,29 @@ Special thanks to:
 
 
 
+
+```markdown
 ## Error Fixing & Auditing 🛠️
-# To ensure all dependencies and packages are up-to-date and free from vulnerabilities, follow these steps:
+To ensure all dependencies and packages are up-to-date and free from vulnerabilities, follow these steps:
 
-# 1. Audit for vulnerabilities:
-npm audit
+1. **Audit for vulnerabilities:**
+   ```sh
+   npm audit
+   ```
 
-# 2. Fix audit issues:
-npm audit fix
+2. **Fix audit issues:**
+   ```sh
+   npm audit fix
+   ```
 
-# 3. Force fix all issues (if necessary):
-npm audit fix --force
+3. **Force fix all issues (if necessary):**
+   ```sh
+   npm audit fix --force
+   ```
 
-# 4. Update all packages to the latest versions:
-npm update
+4. **Update all packages to the latest versions:**
+   ```sh
+   npm update
+   ```
+
 
