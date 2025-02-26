@@ -1,7 +1,5 @@
-Here's the code for your **README.md** file that you can copy-paste directly:
 
-```markdown
-# Movie & TV Show Explorer
+## Movie & TV Show Explorer
 
 **Movie & TV Show Explorer** is a frontend web application designed to give users a dynamic and seamless experience while exploring popular movies and TV shows. Built with **React.js** and powered by **Vite**, this project leverages the **Movie Database API** to provide real-time data on the latest and trending content. With features such as dynamic category switching, a responsive UI, and smooth navigation, this app is built to deliver a rich user experience.
 
