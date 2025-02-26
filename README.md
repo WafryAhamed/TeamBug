@@ -1,7 +1,7 @@
 
 ## Movie & TV Show Explorer
 
-**Movie & TV Show Explorer** is a frontend web application designed to give users a dynamic and seamless experience while exploring popular movies and TV shows. Built with **React.js** and powered by **Vite**, this project leverages the **Movie Database API** to provide real-time data on the latest and trending content. With features such as dynamic category switching, a responsive UI, and smooth navigation, this app is built to deliver a rich user experience.
+**Flixify r** is a frontend web application designed to give users a dynamic and seamless experience while exploring popular movies and TV shows. Built with **React.js** and powered by **Vite**, this project leverages the **Movie Database API** to provide real-time data on the latest and trending content. With features such as dynamic category switching, a responsive UI, and smooth navigation, this app is built to deliver a rich user experience.
 
 ## Features ✨
 - 🔥 Browse popular **Movies & TV Shows** in an interactive interface
@@ -12,7 +12,6 @@
 - ⭐ Rating and Genre Highlights for quick content discovery
 - 🖼️ Lazy loading of images to optimize performance
 - ✅ Filter by genre, release date, and rating to refine search results
-- 🎛 Carousel-based UI for easy navigation across content
 - 🌙 Dark Mode for enhanced user experience
 - ⚡ Optimized performance with Vite for faster load times
 
