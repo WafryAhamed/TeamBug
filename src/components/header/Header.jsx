@@ -1,0 +1,327 @@
+import React, { useState, useEffect } from "react";
+import {
+  HiOutlineSearch,
+} from "react-icons/hi";
+import { SlMenu } from "react-icons/sl";
+import { VscChromeClose } from "react-icons/vsc";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./style.scss";
+import ContentWrapper from "../contentWrapper/ContentWrapper";
+import logo from "../../assets/cinemx.png";
+// Import images for Google, Apple, and Facebook
+import googleLogo from "../../assets/images/google-logo.png";
+import appleLogo from "../../assets/images/apple-logo.png";
+import facebookLogo from "../../assets/images/facebook-logo.png";
+
+const Header = () => {
+  // Existing states
+  const [show, setShow] = useState("top");
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [query, setQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false); // Updated to boolean for clarity
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
+  // New state for language selection
+  const [language, setLanguage] = useState("English");
+
+  // New state for theme toggle
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Scroll effect logic
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  const controlNavBar = () => {
+    if (window.scrollY > 200) {
+      if (window.scrollY > lastScrollY && !mobileMenu) {
+        setShow("hide");
+      } else {
+        setShow("show");
+      }
+      setLastScrollY(window.scrollY);
+    } else {
+      setShow("top");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", controlNavBar);
+    return () => {
+      window.removeEventListener("scroll", controlNavBar);
+    };
+  }, [lastScrollY]);
+
+  const openSearch = () => {
+    setMobileMenu(false);
+    setShowSearch(true);
+  };
+
+  const closeSearch = () => {
+    setShowSearch(false);
+  };
+
+  const searchQueryHandler = (event) => {
+    if (event.key === "Enter" && query.length > 0) {
+      navigate(`/search/${query}`);
+      setTimeout(() => {
+        setShowSearch(false);
+      }, 1000);
+    }
+  };
+
+  const navigationHandler = (type) => {
+    if (type === "movie") {
+      navigate("/explore/movie");
+    } else {
+      navigate("/explore/tv");
+    }
+    setMobileMenu(false);
+  };
+
+  // Toggle authentication modal
+  const toggleAuthModal = () => {
+    setShowAuthModal(!showAuthModal);
+    setShowCreateAccount(false); // Reset to Sign In view
+  };
+
+  // Toggle Create Account form
+  const toggleCreateAccount = () => {
+    setShowCreateAccount(!showCreateAccount);
+  };
+
+  // Toggle theme (day/night)
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle("dark-mode", !isDarkMode);
+  };
+
+  return (
+    <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
+      <ContentWrapper>
+        {/* Logo */}
+        <div className="logo" onClick={() => navigate("/")}>
+          <img src={logo} alt="" />
+        </div>
+        {/* Menu Items */}
+        <ul className="menuItems">
+          {/* Search Icon */}
+          <li className="menuItem">
+            <HiOutlineSearch onClick={openSearch} />
+          </li>
+          {/* Movies */}
+          <li className="menuItem" onClick={() => navigationHandler("movie")}>
+            Movies
+          </li>
+          {/* TV Shows */}
+          <li className="menuItem" onClick={() => navigationHandler("tv")}>
+            TV Shows
+          </li>
+          {/* Watchlist Button */}
+          <li className="menuItem" onClick={() => navigationHandler("movie")}>
+            Watchlist
+          </li>
+          {/* Sign In Button */}
+          <li className="menuItem authButton" onClick={toggleAuthModal}>
+            Sign In
+          </li>
+          {/* Language Dropdown */}
+          <li className="menuItem languageDropdown">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            >
+              <option value="English">English</option>
+              <option value="Sinhala">Sinhala</option>
+              <option value="Tamil">Tamil</option>
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+              <option value="German">German</option>
+            </select>
+          </li>
+          {/* Day/Night Toggle Switch */}
+          <li className="menuItem themeToggle">
+            <div
+              className="themeToggleSwitch"
+              onClick={toggleTheme}
+              style={{
+                width: "60px",
+                height: "30px",
+                borderRadius: "15px",
+                background: isDarkMode
+                  ? "linear-gradient(90deg, #4b6cb7, #182848)"
+                  : "linear-gradient(90deg,rgb(250, 236, 180),rgb(252, 248, 216))",
+                position: "relative",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 5px",
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              {/* moon Symbol */}
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: isDarkMode ? "#ccc" : "#ffcc00",
+                  opacity: isDarkMode ? 0.5 : 1,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                🌙
+              </span>
+              {/* Thumb */}
+              <div
+                className="toggleThumb"
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  background: "#fff",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  top: "5px",
+                  left: isDarkMode ? "35px" : "5px",
+                  transition: "left 0.3s ease, box-shadow 0.3s ease",
+                  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              ></div>
+              {/* sun Symbol */}
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: isDarkMode ? "#f0f0f0" : "#ccc",
+                  opacity: isDarkMode ? 1 : 0.5,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                 ☀️
+              </span>
+            </div>
+          </li>
+        </ul>
+        {/* Mobile Menu Items */}
+        <div className="mobileMenuItems">
+          <HiOutlineSearch onClick={openSearch} />
+          {mobileMenu ? (
+            <VscChromeClose onClick={() => setMobileMenu(false)} />
+          ) : (
+            <SlMenu onClick={() => setMobileMenu(true)} />
+          )}
+        </div>
+      </ContentWrapper>
+      {/* Search Bar */}
+      {showSearch && (
+        <div className="searchBar">
+          <ContentWrapper>
+            <div className="searchInput">
+              <input
+                type="text"
+                placeholder="Search for movie or TV show.."
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyUp={searchQueryHandler}
+              />
+              {/* Close Button */}
+              <VscChromeClose className="closeSearch" onClick={closeSearch} />
+            </div>
+          </ContentWrapper>
+        </div>
+      )}
+      {/* Authentication Modal */}
+      {showAuthModal && (
+        <div className="authModal">
+          <div className="authModalContent">
+            {!showCreateAccount ? (
+              <>
+                <h2>Sign In</h2>
+                {/* Google Button */}
+                <button className="authOption" style={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}>
+                  <img src={googleLogo} alt="Google" style={{ width: "25px", height: "25px", marginLeft: "2px", marginBottom: "-6px" }} />
+                  <span style={{ marginLeft: "5px" }}>Sign in with Google</span>
+                </button>
+                {/* Apple Button */}
+                <button className="authOption" style={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}>
+                  <img src={appleLogo} alt="Apple" style={{ width: "25px", height: "25px", marginRight: "1px", marginBottom: "-1px" }} />
+                  <span style={{ marginLeft: "5px" }}>Sign in with Apple</span>
+                </button>
+                {/* Facebook Button */}
+                <button className="authOption" style={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}>
+                  <img src={facebookLogo} alt="Facebook" style={{ width: "28px", height: "28px", marginRight: "-1px", marginBottom: "-1px" }} />
+                  <span style={{ marginLeft: "5px" }}>Sign in with Facebook</span>
+                </button>
+                <p>or</p>
+                {/* Create Account Button */}
+                <button
+                  className="authOption createAccount"
+                  onClick={toggleCreateAccount}
+                >
+                  Create a New Account
+                </button>
+                {/* Close Button */}
+                <button
+                  className="closeModal topRight"
+                  onClick={toggleAuthModal}
+                >
+                  ×
+                </button>
+              </>
+            ) : (
+              <>
+                <h2>Create Account</h2>
+                <form className="createAccountForm">
+                  <label>
+                    Your name
+                    <input
+                      type="text"
+                      placeholder="First and last name"
+                      required
+                    />
+                  </label>
+                  <label>
+                    Email
+                    <input type="email" placeholder="Email" required />
+                  </label>
+                  <label>
+                    Password
+                    <input
+                      type="password"
+                      placeholder="At least 8 characters"
+                      minLength={8}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Re-enter password
+                    <input
+                      type="password"
+                      placeholder="Re-enter password"
+                      required
+                    />
+                  </label>
+                  <button type="submit">Create Your Account</button>
+                </form>
+                <p>
+                  Already have an account?{" "}
+                  <span onClick={toggleCreateAccount} style={{ color: 'red', cursor: 'pointer' }}>Sign in</span>
+                </p>
+                {/* Close Button */}
+                <button
+                  className="closeModal topRight"
+                  onClick={toggleAuthModal}
+                >
+                  ×
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
+
+export default Header;
