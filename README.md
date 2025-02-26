@@ -76,9 +76,6 @@ Special thanks to:
 - The **open-source community** for the React libraries that made this project possible.
 - All my **teammates** who worked tirelessly to enhance the world of frontend development!
 
-![image](https://github.com/user-attachments/assets/eea2de04-b28a-420c-af87-a39492e8bfc7) ![image](https://github.com/user-attachments/assets/9e1fabf9-ac03-41c5-a901-265c281bbd45)
-
-
 
 ## Future Work 🔮
 - Add more **advanced filtering options** such as language, runtime, etc.
