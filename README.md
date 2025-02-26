@@ -10,7 +10,6 @@
 - 🎭 Switch between **Movies & TV Shows** dynamically with an intuitive layout
 - 🎬 Detailed pages for each movie or TV show with ratings and genres
 - ⭐ Rating and Genre Highlights for quick content discovery
-- 🖼️ Lazy loading of images to optimize performance
 - ✅ Filter by genre, release date, and rating to refine search results
 - 🌙 Dark Mode for enhanced user experience
 - ⚡ Optimized performance with Vite for faster load times
@@ -61,7 +60,6 @@ or
 - Each movie or show has its detailed page, which includes information like ratings, genres, and release dates.
 - The app uses **lazy loading** to ensure fast performance by loading images and content only when needed.
 - Users can **filter content** by genre, rating, or release year to find exactly what they’re looking for.
-- The app seamlessly **switches between Movies and TV Shows**, providing a fluid experience across different types of media.
 
 ## Key Highlights 🌟
 - **Dynamic Content Loading** – Fetches live, real-time data from the Movie Database API to ensure up-to-date results.
